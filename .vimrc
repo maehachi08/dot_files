@@ -46,6 +46,7 @@ call dein#begin(expand('~/.vim/dein'))
   call dein#add('Shougo/neomru.vim')
   call dein#add('Shougo/neosnippet')
   call dein#add('scrooloose/nerdtree')
+  call dein#add('w0ng/vim-hybrid')
 call dein#end()
 
 "-------------------------------
@@ -58,4 +59,14 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 let g:NERDTreeShowHidden = 1                "ドットファイルを表示する↲
 nnoremap :tree :NERDTreeToggle              ":tree ショートカット
 nnoremap <silent><C-e> :NERDTreeToggle<CR>  "Ctrl-e ショットカット
+
+"-------------------------------
+" w0ng/vim-hybrid
+" カラースキーマ設定
+"-------------------------------
+let g:hybrid_custom_term_colors = 1
+let g:hybrid_reduced_contrast = 1 " Remove this line if using the default palette.
+set background=dark
+colorscheme hybrid
+syntax on
 
