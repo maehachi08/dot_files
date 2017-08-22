@@ -29,3 +29,21 @@ set autoread
 filetype plugin indent on
 syntax enable
 
+"-------------------------------
+" プラグイン設定
+"-------------------------------
+" https://github.com/Shougo/dein.vim
+"   $ mkdir -p ~/.vim/dein/repos/github.com/Shougo/dein.vim
+"   $ git clone https://github.com/Shougo/dein.vim.git \
+"       ~/.vim/dein/repos/github.com/Shougo/dein.vim
+"
+" :call dein#install()
+set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
+call dein#begin(expand('~/.vim/dein'))
+  call dein#add('Shougo/dein.vim')
+  call dein#add('Shougo/vimproc.vim', {'build': 'make'})
+  call dein#add('Shougo/neocomplete.vim')
+  call dein#add('Shougo/neomru.vim')
+  call dein#add('Shougo/neosnippet')
+call dein#end()
+
