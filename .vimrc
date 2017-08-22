@@ -70,3 +70,12 @@ set background=dark
 colorscheme hybrid
 syntax on
 
+"-------------------------------
+" 行番号の色を設定
+" http://qiita.com/mochizukikotaro/items/def041700846adb903fe
+"-------------------------------
+hi LineNr ctermbg=0 ctermfg=0
+hi CursorLineNr ctermbg=4 ctermfg=0
+set cursorline
+hi clear CursorLine
+
