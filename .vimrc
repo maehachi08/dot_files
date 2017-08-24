@@ -81,7 +81,7 @@ filetype plugin indent on
 " ファイルツリー設定
 "-------------------------------
 "vimを開いた時にデフォルトでTreeを表示↲
-autocmd VimEnter * execute 'NERDTree'
+"autocmd VimEnter * execute 'NERDTree'
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 let g:NERDTreeShowHidden = 1                "ドットファイルを表示する↲
 nnoremap :tree :NERDTreeToggle              ":tree ショートカット
@@ -101,7 +101,7 @@ syntax on
 " 行番号の色を設定
 " http://qiita.com/mochizukikotaro/items/def041700846adb903fe
 "-------------------------------
-hi LineNr ctermbg=0 ctermfg=0
+hi LineNr ctermbg=8 ctermfg=0
 hi CursorLineNr ctermbg=4 ctermfg=0
 set cursorline
 hi clear CursorLine
