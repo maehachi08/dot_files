@@ -61,6 +61,22 @@ call dein#begin(expand('~/.vim/dein'))
 call dein#end()
 
 "-------------------------------
+" Shougo/neocomplete.vim
+" 補完設定
+"-------------------------------
+" refs https://github.com/Shougo/neocomplete.vim#configuration-examples
+source ~/.vim/neocomplete.vimrc
+let g:neocomplcache_enable_at_startup = 1
+set nocompatible
+filetype off
+set runtimepath+=~/.vim/dein/repos/github.com/Shougo/vimproc/
+set runtimepath+=~/.vim/dein/repos/github.com/Shougo/vimshell.vim/
+set runtimepath+=~/.vim/dein/repos/github.com/Shougo/neocomplete.vim/
+let g:neocomplete#enable_cursor_hold_i = 1
+syntax enable
+filetype plugin indent on
+
+"-------------------------------
 " scrooloose/nerdtree
 " ファイルツリー設定
 "-------------------------------
