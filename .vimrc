@@ -57,8 +57,12 @@ call dein#begin(expand('~/.vim/dein'))
   call dein#add('Shougo/neocomplete.vim')
   call dein#add('Shougo/neomru.vim')
   call dein#add('Shougo/neosnippet')
+  call dein#add('Shougo/neosnippet-snippets')
+  call dein#add('Shougo/vimproc')
+  call dein#add('Shougo/vimshell.vim')
   call dein#add('scrooloose/nerdtree')
   call dein#add('altercation/vim-colors-solarized')
+  call dein#add('kevinw/pyflakes-vim')
 call dein#end()
 
 "-------------------------------
