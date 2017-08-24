@@ -57,7 +57,7 @@ call dein#begin(expand('~/.vim/dein'))
   call dein#add('Shougo/neomru.vim')
   call dein#add('Shougo/neosnippet')
   call dein#add('scrooloose/nerdtree')
-  call dein#add('w0ng/vim-hybrid')
+  call dein#add('altercation/vim-colors-solarized')
 call dein#end()
 
 "-------------------------------
@@ -88,14 +88,14 @@ nnoremap :tree :NERDTreeToggle              ":tree ショートカット
 nnoremap <silent><C-e> :NERDTreeToggle<CR>  "Ctrl-e ショットカット
 
 "-------------------------------
-" w0ng/vim-hybrid
+" altercation/vim-colors-solarized
 " カラースキーマ設定
 "-------------------------------
 let g:hybrid_custom_term_colors = 1
 let g:hybrid_reduced_contrast = 1 " Remove this line if using the default palette.
 set background=dark
-colorscheme hybrid
-syntax on
+colorscheme solarized
+syntax enable
 
 "-------------------------------
 " 行番号の色を設定
