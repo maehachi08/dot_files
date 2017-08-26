@@ -66,7 +66,8 @@ call dein#begin(expand('~/.vim/dein'))
   call dein#add('Shougo/neosnippet-snippets')
   call dein#add('Shougo/vimproc')
   call dein#add('Shougo/vimshell.vim')
-  call dein#add('scrooloose/nerdtree')
+  call dein#add('Shougo/vimfiler.vim')
+  "call dein#add('scrooloose/nerdtree') "Shougo/vimfiler.vim へ乗り換える
   call dein#add('altercation/vim-colors-solarized')
   call dein#add('kevinw/pyflakes-vim')
 call dein#end()
@@ -118,12 +119,48 @@ filetype plugin indent on
 " scrooloose/nerdtree
 " ファイルツリー設定
 "-------------------------------
-"vimを開いた時にデフォルトでTreeを表示↲
+"vimを開いた時にデフォルトでTreeを表示
 "autocmd VimEnter * execute 'NERDTree'
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-let g:NERDTreeShowHidden = 1                "ドットファイルを表示する↲
-nnoremap :tree :NERDTreeToggle              ":tree ショートカット
-nnoremap <silent><C-e> :NERDTreeToggle<CR>  "Ctrl-e ショットカット
+"autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+"let g:NERDTreeShowHidden = 1                "ドットファイルを表示する↲
+"nnoremap :tree :NERDTreeToggle              ":tree ショートカット
+"nnoremap <silent><C-e> :NERDTreeToggle<CR>  "Ctrl-e ショットカット
+
+"-------------------------------
+" Shougo/vimfiler.vim↲
+" ディレクトリエクスプローラ設定
+"
+" Tips:
+"   * ファイラーから展開中の vim へ戻る場合は <TAB> キーで戻れる
+"-------------------------------
+" vim 実行時に デフォルトではファイルツリーを表示しない
+" autocmd VimEnter * execute 'VimFilerBufferDir'
+" 隠しファイル扱い
+let g:vimfiler_ignore_pattern = ['^\.git$', '^\.DS_Store$']
+" vim 標準ファイルを置き換える
+let g:vimfiler_as_default_explorer = 1
+" インサートモードで開始しない
+let g:unite_enable_start_insert = 0
+" :tree / :filer でツリーを開く
+noremap <silent> :tree :VimFiler -split -simple -winwidth=45 -no-quit
+noremap <silent> :filer :VimFiler -split -simple -winwidth=45 -no-quit
+" Ctrl-X と Ctrl+T でツリーを開く
+noremap <C-X><C-T> :VimFiler -split -simple -winwidth=45 -no-quit<ENTER>
+
+" Edit file by tabedit.
+let g:vimfiler_edit_action = 'edit'
+" Like Textmate icons.
+let g:vimfiler_tree_leaf_icon = ' '
+let g:vimfiler_tree_opened_icon = '▾'
+let g:vimfiler_tree_closed_icon = '▸'
+let g:vimfiler_file_icon = '-'
+let g:vimfiler_marked_file_icon = '*'
+nmap <F2>  :VimFiler -split -horizontal -project -toggle -quit<CR>
+autocmd FileType vimfiler nnoremap <buffer><silent>/  :<C-u>Unite file -default-action=vimfiler<CR>
+autocmd FileType vimfiler nnoremap <silent><buffer> e :call <SID>vimfiler_tree_edit('open')<CR>
+autocmd FileType vimfiler nmap <buffer> <CR> <Plug>(vimfiler_expand_or_edit)
+
+
 
 "-------------------------------
 " altercation/vim-colors-solarized
