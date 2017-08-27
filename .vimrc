@@ -69,7 +69,12 @@ call dein#begin(expand('~/.vim/dein'))
   call dein#add('Shougo/vimfiler.vim')
   "call dein#add('scrooloose/nerdtree') "Shougo/vimfiler.vim へ乗り換える
   call dein#add('altercation/vim-colors-solarized')
-  call dein#add('kevinw/pyflakes-vim')
+
+  " Syntax checking
+  call dein#add('scrooloose/syntastic')
+
+  " python向け
+  call dein#add('davidhalter/jedi-vim')
 call dein#end()
 
 "-------------------------------
@@ -210,4 +215,9 @@ hi LineNr ctermbg=8 ctermfg=0
 hi CursorLineNr ctermbg=4 ctermfg=0
 set cursorline
 hi clear CursorLine
+
+let g:jedi#auto_initialization = 0
+
+
+let g:syntastic_python_checkers = ['pyflakes', 'pep8']
 
