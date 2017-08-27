@@ -160,7 +160,37 @@ autocmd FileType vimfiler nnoremap <buffer><silent>/  :<C-u>Unite file -default-
 autocmd FileType vimfiler nnoremap <silent><buffer> e :call <SID>vimfiler_tree_edit('open')<CR>
 autocmd FileType vimfiler nmap <buffer> <CR> <Plug>(vimfiler_expand_or_edit)
 
+" http://baqamore.hatenablog.com/entry/2016/02/13/062555
+augroup vimfiler
+  autocmd!
+  autocmd FileType vimfiler call s:vimfiler_settings()
+augroup END
+function! s:vimfiler_settings()
+  " tree での制御は，<Space>
+  map <silent><buffer> <Space> <NOP>
+  nmap <silent><buffer> <Space> <Plug>(vimfiler_expand_tree)
+  nmap <silent><buffer> <S-Space> <Plug>(vimfiler_expand_tree_recursive)
 
+  " オープンは，<CR>(enter キー)
+  nmap <buffer><expr> <CR> vimfiler#smart_cursor_map(
+          \ "\<Plug>(vimfiler_cd_file)",
+          \ "\<Plug>(vimfiler_open_file_in_another_vimfiler)")
+
+
+  " マークは，<C-Space>(control-space)
+  nmap <silent><buffer> <C-Space> <Plug>(vimfiler_toggle_mark_current_line)
+  vmap <silent><buffer> <C-Space> <Plug>(vimfiler_toggle_mark_selected_lines)
+
+  " ウィンドウを分割して開く
+  nnoremap <silent><buffer><expr> <C-j> vimfiler#do_switch_action('split')
+  nnoremap <silent><buffer><expr> <C-k> vimfiler#do_switch_action('vsplit')
+
+  " 移動，<Tab> だけでなく <C-l> も
+  nmap <buffer> <C-l> <plug>(vimfiler_switch_to_other_window)
+
+  " 閉じる，<Esc> 2 回叩き
+  nmap <buffer> <Esc><Esc> <Plug>(vimfiler_exit)
+endfunction
 
 "-------------------------------
 " altercation/vim-colors-solarized
