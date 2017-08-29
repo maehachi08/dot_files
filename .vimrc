@@ -221,6 +221,26 @@ hi clear CursorLine
 "-------------------------------
 let g:jedi#auto_initialization = 0
 
+"-------------------------------
+" scrooloose/syntastic
+" pip3 install flake8 pyflakes pep8 pylint jedi
+" Syntax Check設定
+"-------------------------------
+" https://github.com/vim-syntastic/syntastic/issues/1870
+let g:syntastic_check_on_wq = 0
+let g:syntastic_enable_signs=1
+let g:syntastic_quiet_messages = {'level': 'warnings'}
+let g:syntastic_auto_loc_list=1 " auto open error window when errors
+let g:syntastic_check_on_open=1 " check for errors on file open
+" let g:syntastic_error_symbol='✗'
+let g:syntastic_error_symbol = "☠"
+let g:syntastic_warning_symbol = "⚠"
+let g:syntastic_style_error_symbol = "☢"
+let g:syntastic_style_warning_symbol = "☹"
 
+let g:syntastic_ignore_files = ['\m\c\.sma$']
+let g:syntastic_python_python_exec = 'python'
 let g:syntastic_python_checkers = ['pyflakes', 'pep8']
+let g:syntastic_python_flake8_args='--ignore=E501,F401,E128,F841,F821,E114,E116,E303' " disable check long str
+
 
