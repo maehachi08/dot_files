@@ -75,6 +75,7 @@ call dein#begin(expand('~/.vim/dein'))
 
   " python向け
   call dein#add('davidhalter/jedi-vim')
+  call dein#add('tell-k/vim-autopep8')
 call dein#end()
 
 "-------------------------------
@@ -243,4 +244,11 @@ let g:syntastic_python_python_exec = 'python'
 let g:syntastic_python_checkers = ['pyflakes', 'pep8']
 let g:syntastic_python_flake8_args='--ignore=E501,F401,E128,F841,F821,E114,E116,E303' " disable check long str
 
+"-------------------------------
+" tell-k/vim-autopep8
+" autopep8 設定
+"-------------------------------
+" Shift + F で自動修正
+autocmd FileType python noremap <buffer> <S-f> :call Autopep8()<CR>
+let g:autopep8_ignore="E501,W293"
 
