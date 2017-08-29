@@ -216,6 +216,9 @@ hi CursorLineNr ctermbg=4 ctermfg=0
 set cursorline
 hi clear CursorLine
 
+"-------------------------------
+" davidhalter/jedi-vim
+"-------------------------------
 let g:jedi#auto_initialization = 0
 
 
