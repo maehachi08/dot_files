@@ -156,9 +156,9 @@ noremap <C-X><C-T> :VimFiler -split -simple -winwidth=45 -no-quit<ENTER>
 let g:vimfiler_edit_action = 'edit'
 " Like Textmate icons.
 let g:vimfiler_tree_leaf_icon = ' '
-let g:vimfiler_tree_opened_icon = '▾'
-let g:vimfiler_tree_closed_icon = '▸'
-let g:vimfiler_file_icon = '-'
+let g:vimfiler_tree_opened_icon = '|'
+let g:vimfiler_tree_closed_icon = '+'
+let g:vimfiler_file_icon = ''
 let g:vimfiler_marked_file_icon = '*'
 nmap <F2>  :VimFiler -split -horizontal -project -toggle -quit<CR>
 autocmd FileType vimfiler nnoremap <buffer><silent>/  :<C-u>Unite file -default-action=vimfiler<CR>
