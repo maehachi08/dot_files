@@ -3,6 +3,17 @@
 "-------------------------------
 " INSERT mode で Ctrl+p : 入力補完
 
+"-------------------------------
+" Vim Tab 設定
+" refs http://qiita.com/wadako111/items/755e753677dd72d8036d
+"-------------------------------
+" tc     : create new tab
+" tx     : close tab
+" tn     : next tab
+" tp     : previous tab
+" t1..t9 : jump Nth from the left
+"-------------------------------
+source .vim/vim_tab.vim
 
 "-------------------------------
 " 基本設定
