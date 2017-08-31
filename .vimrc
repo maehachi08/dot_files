@@ -182,7 +182,6 @@ function! s:vimfiler_settings()
           \ "\<Plug>(vimfiler_cd_file)",
           \ "\<Plug>(vimfiler_open_file_in_another_vimfiler)")
 
-
   " マークは，<C-Space>(control-space)
   nmap <silent><buffer> <C-Space> <Plug>(vimfiler_toggle_mark_current_line)
   vmap <silent><buffer> <C-Space> <Plug>(vimfiler_toggle_mark_selected_lines)
@@ -228,7 +227,12 @@ let g:jedi#auto_initialization = 0
 " Syntax Check設定
 "-------------------------------
 " https://github.com/vim-syntastic/syntastic/issues/1870
+
+" :wq で終了する時もチェックする
 let g:syntastic_check_on_wq = 0
+" ファイルを開いた時にチェックを実行する
+let g:syntastic_check_on_open = 1
+" エラー行に sign を表示
 let g:syntastic_enable_signs=1
 let g:syntastic_quiet_messages = {'level': 'warnings'}
 let g:syntastic_auto_loc_list=1 " auto open error window when errors
