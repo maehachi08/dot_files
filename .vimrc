@@ -13,7 +13,7 @@
 " tp     : previous tab
 " t1..t9 : jump Nth from the left
 "-------------------------------
-source .vim/vim_tab.vim
+source ~/.vim/vim_tab.vim
 
 "-------------------------------
 " 基本設定
@@ -237,6 +237,10 @@ let g:jedi#auto_initialization = 0
 " pip3 install flake8 pyflakes pep8 pylint jedi
 " Syntax Check設定
 "-------------------------------
+" 無視するエラーコード
+" refs http://pep8.readthedocs.io/en/latest/intro.html#error-codes
+" E501: 1行が長い
+"-------------------------------
 " https://github.com/vim-syntastic/syntastic/issues/1870
 
 " :wq で終了する時もチェックする
@@ -257,13 +261,38 @@ let g:syntastic_style_warning_symbol = "☹"
 let g:syntastic_ignore_files = ['\m\c\.sma$']
 let g:syntastic_python_python_exec = 'python'
 let g:syntastic_python_checkers = ['pyflakes', 'pep8']
-let g:syntastic_python_flake8_args='--ignore=E501,F401,E128,F841,F821,E114,E116,E303' " disable check long str
+let g:syntastic_python_pep8_args='--ignore=E501'
+let g:syntastic_python_flake8_args='--ignore=E501'
 
 "-------------------------------
 " tell-k/vim-autopep8
 " autopep8 設定
 "-------------------------------
 " Shift + F で自動修正
+function! Preserve(command)
+    " Save the last search.
+    let search = @/
+    " Save the current cursor position.
+    let cursor_position = getpos('.')
+    " Save the current window position.
+    normal! H
+    let window_position = getpos('.')
+    call setpos('.', cursor_position)
+    " Execute the command.
+    execute a:command
+    " Restore the last search.
+    let @/ = search
+    " Restore the previous window position.
+    call setpos('.', window_position)
+    normal! zt
+    " Restore the previous cursor position.
+    call setpos('.', cursor_position)
+endfunction
+
+function! Autopep8()
+    call Preserve(':silent %!autopep8 -')
+endfunction
+
 autocmd FileType python noremap <buffer> <S-f> :call Autopep8()<CR>
-let g:autopep8_ignore="E501,W293"
+let g:autopep8_ignore="E501"
 
