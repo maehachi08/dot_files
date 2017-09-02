@@ -30,7 +30,7 @@ set shiftwidth=4
 set smartindent
 set clipboard=unnamed             "OSのクリップボードを使用する
 set list
-set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
+set listchars=tab:»-,trail:-,extends:»,precedes:«,nbsp:%
 set nrformats-=octal
 set hidden
 set history=50
