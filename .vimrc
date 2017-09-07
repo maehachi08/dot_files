@@ -83,6 +83,7 @@ call dein#begin(expand('~/.vim/dein'))
 
   " Syntax checking
   call dein#add('scrooloose/syntastic')
+  call dein#add('leshill/vim-json')
 
   " python向け
   call dein#add('davidhalter/jedi-vim')
@@ -295,4 +296,18 @@ endfunction
 
 autocmd FileType python noremap <buffer> <S-f> :call Autopep8()<CR>
 let g:autopep8_ignore="E501"
+
+"-------------------------------
+" leshill/vim-json
+" json check 設定
+"
+" jsonlintをインストールしておく必要があります
+"   yum install -y nodejs npm
+"   npm install -g jsonlint
+"-------------------------------
+autocmd BufNewFile,BufRead *.json set filetype=json
+
+" syntastic の設定に下記を追記。
+" 保存時に jsonlint でチェックするようにする
+let g:syntastic_json_checkers=['jsonlint']
 
