@@ -261,7 +261,7 @@ let g:syntastic_style_warning_symbol = "☹"
 
 let g:syntastic_ignore_files = ['\m\c\.sma$']
 let g:syntastic_python_python_exec = 'python'
-let g:syntastic_python_checkers = ['pyflakes', 'pep8']
+let g:syntastic_python_checkers = ['pep8']
 let g:syntastic_python_pep8_args='--ignore=E501'
 let g:syntastic_python_flake8_args='--ignore=E501'
 
