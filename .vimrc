@@ -77,7 +77,6 @@ call dein#begin(expand('~/.vim/dein'))
   call dein#add('Shougo/vimproc')
   call dein#add('Shougo/vimshell.vim')
   call dein#add('Shougo/vimfiler.vim')
-  "call dein#add('scrooloose/nerdtree') "Shougo/vimfiler.vim へ乗り換える
   call dein#add('altercation/vim-colors-solarized')
 
   " Syntax checking
@@ -139,15 +138,6 @@ syntax enable
 filetype plugin indent on
 
 "-------------------------------
-" scrooloose/nerdtree
-" ファイルツリー設定
-"-------------------------------
-"vimを開いた時にデフォルトでTreeを表示
-"autocmd VimEnter * execute 'NERDTree'
-"autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-"let g:NERDTreeShowHidden = 1                "ドットファイルを表示する↲
-"nnoremap :tree :NERDTreeToggle              ":tree ショートカット
-"nnoremap <silent><C-e> :NERDTreeToggle<CR>  "Ctrl-e ショットカット
 
 "-------------------------------
 " Shougo/vimfiler.vim↲
