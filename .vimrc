@@ -138,27 +138,29 @@ syntax enable
 filetype plugin indent on
 
 "-------------------------------
-
-"-------------------------------
-" Shougo/vimfiler.vim↲
+" Shougo/vimfiler.vim
 " ディレクトリエクスプローラ設定
 "
-" Tips:
-"   * ファイラーから展開中の vim へ戻る場合は <TAB> キーで戻れる
+" Key bind tips:
+"   <TAB>      VimFilerExploreから展開中のvim画面への移動
+"   <F2>       VimFilerExplore 水平分割で表示する
+"   :tree      ファイラーへ移動(もしくは起動)
+"   :filer     ファイラーへ移動(もしくは起動)
+"   :ft        ファイラーへ移動(もしくは起動)
 "-------------------------------
-" vim 実行時に デフォルトではファイルツリーを表示しない
-" autocmd VimEnter * execute 'VimFilerBufferDir'
+" vimを起動したらデフォルトでファイラーが起動する
+autocmd VimEnter * execute 'VimFilerExplore'
 " 隠しファイル扱い
-let g:vimfiler_ignore_pattern = ['^\.git$', '^\.DS_Store$']
+let g:vimfiler_ignore_pattern = ['^\.DS_Store$']
 " vim 標準ファイルを置き換える
 let g:vimfiler_as_default_explorer = 1
 " インサートモードで開始しない
 let g:unite_enable_start_insert = 0
-" :tree / :filer でツリーを開く
-noremap <silent> :tree :VimFiler -split -simple -winwidth=45 -no-quit
-noremap <silent> :filer :VimFiler -split -simple -winwidth=45 -no-quit
-" Ctrl-X と Ctrl+T でツリーを開く
-noremap <C-X><C-T> :VimFiler -split -simple -winwidth=45 -no-quit<ENTER>
+" :tree / :filer / :ft でファイラーへ移動(もしくは起動)
+noremap <silent> :tree :VimFiler -split -simple -winwidth=45 -no-quit<ENTER>
+noremap <silent> :filer :VimFiler -split -simple -winwidth=45 -no-quit<ENTER>
+noremap <silent> :ft :VimFiler -split -simple -winwidth=45 -no-quit<ENTER>
+noremap <F2>  :VimFiler -split -horizontal -project -toggle -quit<CR>
 
 " Edit file by tabedit.
 let g:vimfiler_edit_action = 'edit'
@@ -168,7 +170,6 @@ let g:vimfiler_tree_opened_icon = '|'
 let g:vimfiler_tree_closed_icon = '+'
 let g:vimfiler_file_icon = ''
 let g:vimfiler_marked_file_icon = '*'
-nmap <F2>  :VimFiler -split -horizontal -project -toggle -quit<CR>
 autocmd FileType vimfiler nnoremap <buffer><silent>/  :<C-u>Unite file -default-action=vimfiler<CR>
 autocmd FileType vimfiler nnoremap <silent><buffer> e :call <SID>vimfiler_tree_edit('open')<CR>
 autocmd FileType vimfiler nmap <buffer> <CR> <Plug>(vimfiler_expand_or_edit)
@@ -208,17 +209,17 @@ endfunction
 " altercation/vim-colors-solarized
 " カラースキーマ設定
 "-------------------------------
-let g:hybrid_custom_term_colors = 1
-let g:hybrid_reduced_contrast = 1 " Remove this line if using the default palette.
+syntax enable
 set background=dark
 colorscheme desert
-syntax enable
+let g:solarized_termcolors = 256
+let g:hybrid_reduced_contrast = 1 " Remove this line if using the default palette.
 
 "-------------------------------
 " 行番号の色を設定
 " http://qiita.com/mochizukikotaro/items/def041700846adb903fe
 "-------------------------------
-hi LineNr ctermbg=8 ctermfg=0
+hi LineNr ctermbg=0 ctermfg=0
 hi CursorLineNr ctermbg=4 ctermfg=0
 set cursorline
 hi clear CursorLine
