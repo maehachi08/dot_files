@@ -87,6 +87,12 @@ call dein#begin(expand('~/.vim/dein'))
   " python向け
   call dein#add('davidhalter/jedi-vim')
   call dein#add('tell-k/vim-autopep8')
+
+  " language-server-protocol
+  call dein#add('prabirshrestha/async.vim')
+  call dein#add('prabirshrestha/vim-lsp')
+  call dein#add('prabirshrestha/asyncomplete.vim')
+  call dein#add('prabirshrestha/asyncomplete-lsp.vim')
 call dein#end()
 
 "-------------------------------
@@ -309,4 +315,25 @@ autocmd BufNewFile,BufRead *.json set filetype=json
 " syntastic の設定に下記を追記。
 " 保存時に jsonlint でチェックするようにする
 let g:syntastic_json_checkers=['jsonlint']
+
+"-------------------------------
+" prabirshrestha/vim-lsp
+"-------------------------------
+let g:lsp_diagnostics_enabled = 1
+" debug
+let g:lsp_log_verbose = 1
+let g:lsp_log_file = expand('~/vim-lsp.log')
+let g:asyncomplete_log_file = expand('~/asyncomplete.log')
+
+"-------------------------------
+" please execute under the command.
+"   $ pip3 install python-language-server
+"-------------------------------
+if executable('pyls')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'pyls',
+        \ 'cmd': {server_info->['pyls']},
+        \ 'whitelist': ['python'],
+        \ })
+endif
 
