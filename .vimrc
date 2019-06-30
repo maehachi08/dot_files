@@ -58,19 +58,34 @@ augroup END
 
 
 "-------------------------------
-" プラグイン設定
+" プラグイン設定(dein.vim)
 "-------------------------------
 " https://github.com/Shougo/dein.vim
-"   $ mkdir -p ~/.vim/dein/repos/github.com/Shougo/dein.vim
-"   $ git clone https://github.com/Shougo/dein.vim.git ~/.vim/dein/repos/github.com/Shougo/dein.vim
+"   $ curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > /tmp/installer.sh
+"   $ sh /tmp/installer.sh ~/.cache/dein
 "
 " :call dein#install()
-set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
-call dein#begin(expand('~/.vim/dein'))
+set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
+let s:dein_dir = expand('~/.cache/dein')
+let s:toml_dir = expand('~/.vim/config/nvim')
+let s:toml = s:toml_dir . '/dein.toml'
+let s:lazy_toml = s:toml_dir . '/dein_lazy.toml'
+
+if dein#load_state(s:dein_dir)
+  call dein#begin(s:dein_dir)
+
+    call dein#load_toml(s:toml, {'lazy': 0})
+    call dein#load_toml(s:lazy_toml, {'lazy': 1})
+
+  call dein#end()
+  call dein#save_state()
+endif
+
+call dein#begin(expand('~/.cache/dein'))
   call dein#add('Shougo/dein.vim')
   call dein#add('Shougo/unite.vim')
   call dein#add('Shougo/vimproc.vim', {'build': 'make'})
-  call dein#add('Shougo/neocomplete.vim')
+  " call dein#add('Shougo/neocomplete.vim')
   call dein#add('Shougo/neomru.vim')
   call dein#add('Shougo/neosnippet')
   call dein#add('Shougo/neosnippet-snippets')
@@ -88,11 +103,17 @@ call dein#begin(expand('~/.vim/dein'))
   call dein#add('tell-k/vim-autopep8')
 
   " language-server-protocol
-  call dein#add('prabirshrestha/async.vim')
   call dein#add('prabirshrestha/vim-lsp')
+  call dein#add('prabirshrestha/async.vim')
   call dein#add('prabirshrestha/asyncomplete.vim')
   call dein#add('prabirshrestha/asyncomplete-lsp.vim')
+  call dein#add('yami-beta/asyncomplete-omni.vim')
 call dein#end()
+
+if dein#check_install()
+  call dein#install()
+endif
+
 
 "-------------------------------
 " Shougo/unite.vim 設定
@@ -126,16 +147,16 @@ endif
 " 補完設定
 "-------------------------------
 " refs https://github.com/Shougo/neocomplete.vim#configuration-examples
-source ~/.vim/neocomplete.vimrc
-let g:neocomplcache_enable_at_startup = 1
-set nocompatible
-filetype off
-set runtimepath+=~/.vim/dein/repos/github.com/Shougo/vimproc/
-set runtimepath+=~/.vim/dein/repos/github.com/Shougo/vimshell.vim/
-set runtimepath+=~/.vim/dein/repos/github.com/Shougo/neocomplete.vim/
-let g:neocomplete#enable_cursor_hold_i = 1
-syntax enable
-filetype plugin indent on
+" source ~/.vim/neocomplete.vimrc
+" let g:neocomplcache_enable_at_startup = 1
+" set nocompatible
+" filetype off
+" set runtimepath+=~/.vim/dein/repos/github.com/Shougo/vimproc/
+" set runtimepath+=~/.vim/dein/repos/github.com/Shougo/vimshell.vim/
+" set runtimepath+=~/.vim/dein/repos/github.com/Shougo/neocomplete.vim/
+" let g:neocomplete#enable_cursor_hold_i = 1
+" syntax enable
+" filetype plugin indent on
 
 "-------------------------------
 " Shougo/vimfiler.vim
@@ -219,7 +240,7 @@ let g:hybrid_reduced_contrast = 1 " Remove this line if using the default palett
 " 行番号の色を設定
 " http://qiita.com/mochizukikotaro/items/def041700846adb903fe
 "-------------------------------
-hi LineNr ctermbg=0 ctermfg=0
+hi LineNr ctermbg=9 ctermfg=0
 hi CursorLineNr ctermbg=4 ctermfg=0
 set cursorline
 hi clear CursorLine
@@ -227,7 +248,7 @@ hi clear CursorLine
 "-------------------------------
 " davidhalter/jedi-vim
 "-------------------------------
-let g:jedi#auto_initialization = 0
+" let g:jedi#auto_initialization = 0
 
 "-------------------------------
 " scrooloose/syntastic
@@ -310,21 +331,46 @@ let g:syntastic_json_checkers=['jsonlint']
 "-------------------------------
 " prabirshrestha/vim-lsp
 "-------------------------------
-let g:lsp_diagnostics_enabled = 1
+let g:lsp_diagnostics_enabled = 0
+
 " debug
 let g:lsp_log_verbose = 1
 let g:lsp_log_file = expand('~/vim-lsp.log')
 let g:asyncomplete_log_file = expand('~/asyncomplete.log')
 
+noremap <C-F1> :LspDefinition<CR>
+
 "-------------------------------
 " please execute under the command.
 "   $ pip3 install python-language-server
 "-------------------------------
-if executable('pyls')
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'pyls',
-        \ 'cmd': {server_info->['pyls']},
-        \ 'whitelist': ['python'],
-        \ })
-endif
+augroup LspConfigurationGroup
+  autocmd!
 
+  " Python
+  if executable('pyls')
+    autocmd User lsp_setup call lsp#register_server({
+        \ 'name': 'pyls',
+        \ 'cmd': { server_info -> ['pyls'] },
+        \ 'whitelist': ['python'],
+        \})
+
+    autocmd FileType python setlocal omnifunc=lsp#complete
+  endif
+augroup END
+
+let g:asyncomplete_enable_for_all = 0
+let g:asyncomplete_auto_popup = 0
+
+function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+inoremap <silent><expr> <TAB>
+  \ pumvisible() ? "\<C-n>" :
+  \ <SID>check_back_space() ? "\<TAB>" :
+  \ asyncomplete#force_refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+set completeopt+=preview
