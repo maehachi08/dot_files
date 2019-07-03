@@ -81,6 +81,10 @@ if dein#load_state(s:dein_dir)
   call dein#save_state()
 endif
 
+if dein#check_install()
+  call dein#install()
+endif
+
 call dein#begin(expand('~/.cache/dein'))
   call dein#add('Shougo/dein.vim')
   call dein#add('Shougo/unite.vim')
@@ -359,18 +363,38 @@ augroup LspConfigurationGroup
   endif
 augroup END
 
-let g:asyncomplete_enable_for_all = 0
-let g:asyncomplete_auto_popup = 0
+"-------------------------------
+" neoclide/coc-snippets
+" https://github.com/neoclide/coc-snippets#examples
+"
+" :CocInstall coc-python
+" :CocInstall coc-snippets
+"-------------------------------
+" Use <C-l> for trigger snippet expand.
+imap <C-l> <Plug>(coc-snippets-expand)
 
-function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
+" Use <C-j> for select text for visual placeholder of snippet.
+vmap <C-j> <Plug>(coc-snippets-select)
+
+" Use <C-j> for jump to next placeholder, it's default of coc.nvim
+let g:coc_snippet_next = '<c-j>'
+
+" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+let g:coc_snippet_prev = '<c-k>'
+
+" Use <C-j> for both expand and jump (make expand higher priority.)
+imap <C-j> <Plug>(coc-snippets-expand-jump)
 
 inoremap <silent><expr> <TAB>
-  \ pumvisible() ? "\<C-n>" :
-  \ <SID>check_back_space() ? "\<TAB>" :
-  \ asyncomplete#force_refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
 
-set completeopt+=preview
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+let g:coc_snippet_next = '<tab>'
+

@@ -1,5 +1,7 @@
 [[plugins]]
 repo = 'neoclide/coc.nvim'
+rev = 'release'
+
 build = 'coc#util#install()'
 hook_add = '''
   nmap <silent> gd <Plug>(coc-definition)
