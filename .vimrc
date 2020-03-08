@@ -104,10 +104,6 @@ augroup END
 set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
 let s:dein_dir = expand('~/.cache/dein')
 
-if dein#check_install()
-  call dein#install()
-endif
-
 call dein#begin(expand('~/.cache/dein'))
   call dein#add('Shougo/dein.vim')
   call dein#add('Shougo/unite.vim')
@@ -374,7 +370,6 @@ augroup MyLsp
     autocmd FileType python call s:configure_lsp()
   endif
 augroup END
-<<<<<<< HEAD
 " 言語ごとにServerが実行されたらする設定を関数化
 function! s:configure_lsp() abort
   setlocal omnifunc=lsp#complete   " オムニ補完を有効化
@@ -408,3 +403,4 @@ function! s:configure_lsp() abort
   nnoremap <buffer> K :<C-u>LspHover<CR>
   nnoremap <buffer> <F1> :<C-u>LspImplementation<CR>
   nnoremap <buffer> <F2> :<C-u>LspRename<CR>
+endfunction
