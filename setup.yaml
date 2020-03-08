@@ -8,6 +8,7 @@
     - pep8
     - pylint
     - jedi
+    - python-language-server
 
 
 # brew install the_silver_searcher

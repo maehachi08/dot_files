@@ -15,6 +15,42 @@
 "-------------------------------
 source ~/.vim/vim_tab.vim
 
+" Split window
+nmap ss :split<Return><C-w>w
+nmap sv :vsplit<Return><C-w>w
+" Move window
+nmap <Space> <C-w>w
+map s<left> <C-w>h
+map s<up> <C-w>k
+map s<down> <C-w>j
+map s<right> <C-w>l
+map sh <C-w>h
+map sk <C-w>k
+map sj <C-w>j
+map sl <C-w>l
+" Resize window
+nmap <C-w><left> <C-w><
+nmap <C-w><right> <C-w>>
+nmap <C-w><up> <C-w>+
+nmap <C-w><down> <C-w>-
+
+" ファイルアイコン
+" https://github.com/ryanoasis/vim-devicons#installation
+"
+"  setup
+"    1. フォントインストール
+"    refs https://github.com/ryanoasis/nerd-fonts#font-installation
+"
+"      Option 4: Homebrew Fonts
+"        $ brew tap homebrew/cask-fonts
+"        $ brew cask install font-hack-nerd-font
+"
+"      Option 6: Ad Hoc Curl Download
+"        $ cd ~/Library/Fonts && curl -fLo "Droid Sans Mono for Powerline Nerd Font Complete.otf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20Nerd%20Font%20Complete.otf
+set guifont=<FONT_NAME>:h<FONT_SIZE>
+let g:airline_powerline_fonts = 1
+let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+
 "-------------------------------
 " 基本設定
 "-------------------------------
@@ -42,6 +78,7 @@ set vb t_vb=                      "ビープ音を鳴らさない
 set ruler                         "カーソルが何行目の何列目に置かれているかを表示する
 set shell=/bin/bash
 set autoread
+" set mouse=a
 filetype plugin indent on
 syntax enable
 filetype on            " enables filetype detection
@@ -56,36 +93,21 @@ augroup source-vimrc
   autocmd BufWritePost *gvimrc if has('gui_running') source $MYGVIMRC
 augroup END
 
-
 "-------------------------------
 " プラグイン設定(dein.vim)
 "-------------------------------
 " https://github.com/Shougo/dein.vim
-"   $ curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > /tmp/installer.sh
+" curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > /tmp/installer.sh
 "   $ sh /tmp/installer.sh ~/.cache/dein
 "
 " :call dein#install()
 set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
 let s:dein_dir = expand('~/.cache/dein')
-let s:toml_dir = expand('~/.vim/config/nvim')
-let s:toml = s:toml_dir . '/dein.toml'
-let s:lazy_toml = s:toml_dir . '/dein_lazy.toml'
-
-if dein#load_state(s:dein_dir)
-  call dein#begin(s:dein_dir)
-
-    call dein#load_toml(s:toml, {'lazy': 0})
-    call dein#load_toml(s:lazy_toml, {'lazy': 1})
-
-  call dein#end()
-  call dein#save_state()
-endif
 
 call dein#begin(expand('~/.cache/dein'))
   call dein#add('Shougo/dein.vim')
   call dein#add('Shougo/unite.vim')
   call dein#add('Shougo/vimproc.vim', {'build': 'make'})
-  " call dein#add('Shougo/neocomplete.vim')
   call dein#add('Shougo/neomru.vim')
   call dein#add('Shougo/neosnippet')
   call dein#add('Shougo/neosnippet-snippets')
@@ -93,6 +115,7 @@ call dein#begin(expand('~/.cache/dein'))
   call dein#add('Shougo/vimshell.vim')
   call dein#add('Shougo/vimfiler.vim')
   call dein#add('altercation/vim-colors-solarized')
+  call dein#add('ryanoasis/vim-devicons')
 
   " Syntax checking
   call dein#add('scrooloose/syntastic')
@@ -104,6 +127,7 @@ call dein#begin(expand('~/.cache/dein'))
 
   " language-server-protocol
   call dein#add('prabirshrestha/vim-lsp')
+  call dein#add('mattn/vim-lsp-settings')
   call dein#add('prabirshrestha/async.vim')
   call dein#add('prabirshrestha/asyncomplete.vim')
   call dein#add('prabirshrestha/asyncomplete-lsp.vim')
@@ -113,7 +137,6 @@ call dein#end()
 if dein#check_install()
   call dein#install()
 endif
-
 
 "-------------------------------
 " Shougo/unite.vim 設定
@@ -143,22 +166,6 @@ if executable('ag')
 endif
 
 "-------------------------------
-" Shougo/neocomplete.vim
-" 補完設定
-"-------------------------------
-" refs https://github.com/Shougo/neocomplete.vim#configuration-examples
-" source ~/.vim/neocomplete.vimrc
-" let g:neocomplcache_enable_at_startup = 1
-" set nocompatible
-" filetype off
-" set runtimepath+=~/.vim/dein/repos/github.com/Shougo/vimproc/
-" set runtimepath+=~/.vim/dein/repos/github.com/Shougo/vimshell.vim/
-" set runtimepath+=~/.vim/dein/repos/github.com/Shougo/neocomplete.vim/
-" let g:neocomplete#enable_cursor_hold_i = 1
-" syntax enable
-" filetype plugin indent on
-
-"-------------------------------
 " Shougo/vimfiler.vim
 " ディレクトリエクスプローラ設定
 "
@@ -170,7 +177,7 @@ endif
 "   :ft        ファイラーへ移動(もしくは起動)
 "-------------------------------
 " vimを起動したらデフォルトでファイラーが起動する
-autocmd VimEnter * execute 'VimFilerExplore'
+" autocmd VimEnter * execute 'VimFilerExplore'
 " 隠しファイル扱い
 let g:vimfiler_ignore_pattern = ['^\.DS_Store$']
 " vim 標準ファイルを置き換える
@@ -186,11 +193,11 @@ noremap <F2>  :VimFiler -split -horizontal -project -toggle -quit<CR>
 " Edit file by tabedit.
 let g:vimfiler_edit_action = 'edit'
 " Like Textmate icons.
-let g:vimfiler_tree_leaf_icon = ' '
-let g:vimfiler_tree_opened_icon = '|'
-let g:vimfiler_tree_closed_icon = '+'
-let g:vimfiler_file_icon = ''
-let g:vimfiler_marked_file_icon = '*'
+let g:vimfiler_tree_leaf_icon = ''
+let g:vimfiler_tree_opened_icon = '▾'
+let g:vimfiler_tree_closed_icon = '▸'
+let g:vimfiler_marked_file_icon = '✓'
+
 autocmd FileType vimfiler nnoremap <buffer><silent>/  :<C-u>Unite file -default-action=vimfiler<CR>
 autocmd FileType vimfiler nnoremap <silent><buffer> e :call <SID>vimfiler_tree_edit('open')<CR>
 autocmd FileType vimfiler nmap <buffer> <CR> <Plug>(vimfiler_expand_or_edit)
@@ -248,7 +255,7 @@ hi clear CursorLine
 "-------------------------------
 " davidhalter/jedi-vim
 "-------------------------------
-" let g:jedi#auto_initialization = 0
+let g:jedi#auto_initialization = 0
 
 "-------------------------------
 " scrooloose/syntastic
@@ -332,45 +339,70 @@ let g:syntastic_json_checkers=['jsonlint']
 " prabirshrestha/vim-lsp
 "-------------------------------
 let g:lsp_diagnostics_enabled = 0
+let g:lsp_highlight_references_enabled = 1
 
 " debug
 let g:lsp_log_verbose = 1
 let g:lsp_log_file = expand('~/vim-lsp.log')
 let g:asyncomplete_log_file = expand('~/asyncomplete.log')
 
-noremap <C-F1> :LspDefinition<CR>
-
 "-------------------------------
 " please execute under the command.
 "   $ pip3 install python-language-server
 "-------------------------------
-augroup LspConfigurationGroup
+" 言語用Serverの設定
+augroup MyLsp
   autocmd!
-
-  " Python
+  " pip install python-language-server
   if executable('pyls')
+    " Python用の設定を記載
+    " workspace_configで以下の設定を記載
+    " - pycodestyleの設定はALEと重複するので無効にする
+    " - jediの定義ジャンプで一部無効になっている設定を有効化
     autocmd User lsp_setup call lsp#register_server({
         \ 'name': 'pyls',
         \ 'cmd': { server_info -> ['pyls'] },
         \ 'whitelist': ['python'],
+        \ 'workspace_config': {'pyls': {'plugins': {
+        \   'pycodestyle': {'enabled': v:false},
+        \   'jedi_definition': {'follow_imports': v:true, 'follow_builtin_imports': v:true},}}}
         \})
-
-    autocmd FileType python setlocal omnifunc=lsp#complete
+    autocmd FileType python call s:configure_lsp()
   endif
 augroup END
+" 言語ごとにServerが実行されたらする設定を関数化
+function! s:configure_lsp() abort
+  setlocal omnifunc=lsp#complete   " オムニ補完を有効化
+  " LSP用にマッピング
+  " LspDefinition などでジャンプ後に戻る
+  " https://github.com/prabirshrestha/vim-lsp/issues/434
+  "   CTRL-o: 戻る
+  "   CTRL-i: 進む
+  "
+  " Option to open :LspDefinition in a split #169
+  " https://github.com/prabirshrestha/vim-lsp/issues/169
 
-let g:asyncomplete_enable_for_all = 0
-let g:asyncomplete_auto_popup = 0
+  " :LspDefinition
+  " 定義元へジャンプする
+  nnoremap <buffer> <C-]> :<C-u>LspDefinition<CR>
+  nmap \gd :LspDefinition<cr>
+  nmap \gt :tab split<cr>:LspDefinition<cr>
+  nmap \gs :sp<cr>:LspDefinition<cr>
+  nmap \gv :vsp<cr>:LspDefinition<cr>
 
-function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~ '\s'
+  " :LspReferences
+  " 参照先をリストする
+  nnoremap <buffer> gD :<C-u>LspReferences<CR>
+
+  " :LspDocumentSymbol
+  " 
+  nnoremap <buffer> gs :<C-u>LspDocumentSymbol<CR>
+  nnoremap <buffer> gS :<C-u>LspWorkspaceSymbol<CR>
+  nnoremap <buffer> gQ :<C-u>LspDocumentFormat<CR>
+  vnoremap <buffer> gQ :LspDocumentRangeFormat<CR>
+  nnoremap <buffer> K :<C-u>LspHover<CR>
+  nnoremap <buffer> <F1> :<C-u>LspImplementation<CR>
+  nnoremap <buffer> <F2> :<C-u>LspRename<CR>
 endfunction
+let g:lsp_diagnostics_enabled = 0  " 警告やエラーの表示はALEに任せるのでOFFにする
 
-inoremap <silent><expr> <TAB>
-  \ pumvisible() ? "\<C-n>" :
-  \ <SID>check_back_space() ? "\<TAB>" :
-  \ asyncomplete#force_refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-set completeopt+=preview
